@@ -1,4 +1,5 @@
 import { visit } from "unist-util-visit";
+const BASE_URL = import.meta.env.BASE_URL;
 
 export default function remarkStripMdLinks() {
   return (tree) => {
@@ -11,8 +12,10 @@ export default function remarkStripMdLinks() {
 
         // convert index.md → directory
         url = url.replace(/\/index$/, "/");
-
         node.url = url;
+      }
+      if (BASE_URL && node.url.startsWith("/")) {
+        node.url = BASE_URL + node.url;
       }
     });
   };

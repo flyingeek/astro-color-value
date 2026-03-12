@@ -2,9 +2,12 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightStripMdExtension from './plugins/starlight-strip-md-extension';
+const isProd = import.meta.env.PROD;
 
 // https://astro.build/config
 export default defineConfig({
+    site: isProd ? 'https://astronaut.github.io' : undefined,
+    base: isProd ? '/astro-color-value' : undefined,
     trailingSlash: "never",
     experimental: {
       contentIntellisense: true,
