@@ -1,0 +1,14 @@
+{
+//  "markdown.experimental.linkify": true,
+  "markdown.validate.enabled": true,
+//  "markdown.validate.referenceLinks.enabled": "warning",
+  "markdown.extension.toc.levels": "2..6",
+  "markdown.links.openLocation": "beside",
+//  "path-autocomplete.pathMappings": {
+//    "/": "${workspaceFolder}/src/content/docs"
+//},
+//"markdown.suggest.paths.enabled": true,
+//"markdown.extension.completion.root": "src/content/docs",
+//"markdown.extension.completion.enabled": true,
+//"markdown.validate.fileLinks.enabled": "warning"
+}
