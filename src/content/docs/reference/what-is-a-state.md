@@ -1,6 +1,15 @@
 ---
 title: What is a state
 description: Explanation of what a state is used for
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
 ---
 
 A state is a custom text that you want to use when a value match some condition.

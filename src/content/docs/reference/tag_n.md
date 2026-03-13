@@ -1,6 +1,15 @@
 ---
 title: _n tag
 description: The reference for _n tag
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
 ---
 
 `_n` is the default output used by the color-value widget in the title. It refers to the source's name.

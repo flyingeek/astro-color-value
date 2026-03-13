@@ -1,6 +1,15 @@
 ---
 title: What is a tag
 description: Explanation of what a tag is used for
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
 ---
 
 A tag is simply a special markup or a placeholder which is replaced when displayed by another value.

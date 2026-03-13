@@ -1,6 +1,15 @@
 ---
 title: Example Guide
 description: A guide in my new Starlight docs site.
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
 ---
 
 Guides lead a user through a specific task they want to accomplish, often with a sequence of steps.

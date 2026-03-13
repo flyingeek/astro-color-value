@@ -1,6 +1,14 @@
 ---
 title: _t tag
 description: The reference for _t tag
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
 ---
 
 `_t` is the default output used by the color-value widget, as empty state already output the default value, you will only use this tag combined with additional text.

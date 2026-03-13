@@ -1,6 +1,14 @@
 ---
 title: __ tag
 description: The reference for __ tag
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
 ---
 
 `__` is replaced by a literal underscore
