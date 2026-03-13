@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "check:home-sync": "node scripts/check-home-sync.mjs",
+    "build": "npm run check:home-sync && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
