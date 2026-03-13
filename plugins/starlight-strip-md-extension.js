@@ -8,7 +8,11 @@
 
 import remarkStripMdLinks from './remark-strip-md-links.js';
 
-export default function starlightStripMdExtension() {
+/**
+ * @param {{ linkFormat?: "file" | "directory" }} [options]
+ */
+export default function starlightStripMdExtension(options = {}) {
+  const linkFormat = options.linkFormat === 'directory' ? 'directory' : 'file';
 
   return {
     name: 'starlight-strip-md-extension',
@@ -20,7 +24,7 @@ export default function starlightStripMdExtension() {
             'astro:config:setup'({ updateConfig }) {
               updateConfig({
                 markdown: {
-                  remarkPlugins: [remarkStripMdLinks],
+                  remarkPlugins: [[remarkStripMdLinks, { linkFormat }]],
                 },
               });
             },

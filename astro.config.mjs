@@ -4,14 +4,16 @@ import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import starlightStripMdExtension from './plugins/starlight-strip-md-extension';
 const isProd = import.meta.env.PROD;
+const buildFormat = 'directory';
+const trailingSlash = buildFormat === 'directory' ? 'always' : 'never';
 
 // https://astro.build/config
 export default defineConfig({
     site: isProd ? 'https://flyingeek.github.io/astro-color-value' : undefined,
     base: isProd ? '/astro-color-value' : undefined,
-    trailingSlash: "never",
+    trailingSlash,
     build: {
-        format: "file",
+        format: buildFormat,
     },
     experimental: {
       contentIntellisense: true,
@@ -36,7 +38,7 @@ export default defineConfig({
                     autogenerate: { directory: 'reference' },
                 },
               ],
-            plugins: [starlightStripMdExtension()],
+                        plugins: [starlightStripMdExtension({ linkFormat: buildFormat })],
         }),
     ],
 });
