@@ -7,6 +7,21 @@ A tag is simply a special markup or a placeholder which is replaced when display
 
 It can be useful to output complex value in custom states.
 
-## Further reading
+## List of all the available tags
 
-- Read [What is a state](./what-is-a-state.md)
+| tag                 | replacement value                              | Example |
+|---------------------|------------------------------------------------|---------|
+| [_v](./tag_v.md)    | The value of the source using source precision | 4.15    |
+| [_0v](./tag_v.md)   | The value of the source as integer             | 4       |
+| [_1v](./tag_v.md)   | The value of the source with one decimal       | 4.1     |
+| [_2v](./tag_v.md)   | The value of source with 2 decimals            | 4.15    |
+| [_3v](./tag_v.md)   | The value of source with 3 decimals            | 4.150   |
+| [_10v](./tag_v.md)  | The value multiplied by 10 as integer          | 41      |
+| [_100v](./tag_v.md) | The value multiplied by 100 as integer         | 415     |
+| [_t](./tag_t.md)    | This is the default value as text with unit    | 4.15V   |
+| [_u](./tag_u.md)    | The unit of the source as string               | V       |
+| [_2x](./tag_x.md)   | multiplier using source precision              | 8.30    |
+| [_0.5x](./tag_x.md) | multiplier using source precision              | 2.07    |
+| [_n](./tag_n.md)    | name of the source.                            | RxBatt  |
+| [_b](./tag_b.md)    | new line or line break                         |         |
+| [__](./tag__.md)    | you may need it for literal underscore         | _       |
