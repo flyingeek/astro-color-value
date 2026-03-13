@@ -7,8 +7,8 @@ const isProd = import.meta.env.PROD;
 
 // https://astro.build/config
 export default defineConfig({
-    site: isProd ? 'https://astro-color-value.netlify.app' : undefined,
-    //base: isProd ? '/astro-color-value' : undefined,
+    site: isProd ? 'https://flyingeek.github.io/astro-color-value' : undefined,
+    base: isProd ? '/astro-color-value' : undefined,
     trailingSlash: "never",
     experimental: {
       contentIntellisense: true,
