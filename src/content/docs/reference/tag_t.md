@@ -21,4 +21,4 @@ A common use is when you put a text in a state, it might then be useful to use t
 
 - Read [What is a tag](./what-is-a-tag.md)
 - Read [_n tag](./tag_n.md)
-[toc](./example.md)
+[toc](./what-is-a-tag.md)

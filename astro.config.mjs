@@ -22,7 +22,7 @@ export default defineConfig({
     integrations: [
         svelte(),
         starlight({
-            title: 'My Docs',
+            title: 'Color Value Docs',
             social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/flyingeek/ethos-color-value' }],
             sidebar: [
                 {
@@ -38,7 +38,10 @@ export default defineConfig({
                     autogenerate: { directory: 'reference' },
                 },
               ],
-                        plugins: [starlightStripMdExtension({ linkFormat: buildFormat })],
+            components: {
+                Hero: './src/components/starlight/Hero.astro',
+            },
+            plugins: [starlightStripMdExtension({ linkFormat: buildFormat })],
         }),
     ],
 });
