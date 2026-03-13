@@ -10,6 +10,9 @@ export default defineConfig({
     site: isProd ? 'https://flyingeek.github.io/astro-color-value' : undefined,
     base: isProd ? '/astro-color-value' : undefined,
     trailingSlash: "never",
+    build: {
+        format: "file",
+    },
     experimental: {
       contentIntellisense: true,
     },

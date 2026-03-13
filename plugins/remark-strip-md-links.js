@@ -1,22 +1,43 @@
 import { visit } from "unist-util-visit";
-const BASE_URL = import.meta.env.BASE_URL;
 
 export default function remarkStripMdLinks() {
   return (tree) => {
-    visit(tree, "link", (node) => {
-      if (!node.url) return;
+    visit(tree, ["link", "definition"], (node) => {
+      if (!node.url || typeof node.url !== "string") return;
 
-      // only rewrite local markdown links
-      if (node.url.endsWith(".md")) {
-        let url = node.url.replace(/\.md$/, "");
+      const url = node.url;
 
-        // convert index.md → directory
-        url = url.replace(/\/index$/, "/");
-        node.url = url;
+      // Skip external URLs, anchors, and protocol-relative URLs.
+      if (
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("mailto:") ||
+        url.startsWith("tel:") ||
+        url.startsWith("#") ||
+        url.startsWith("//")
+      ) {
+        return;
       }
-      if (BASE_URL && node.url.startsWith("/")) {
-        node.url = BASE_URL + node.url;
+
+      const queryIndex = url.indexOf("?");
+      const hashIndex = url.indexOf("#");
+      let splitAt = url.length;
+      if (queryIndex !== -1) splitAt = Math.min(splitAt, queryIndex);
+      if (hashIndex !== -1) splitAt = Math.min(splitAt, hashIndex);
+
+      const pathname = url.slice(0, splitAt);
+      const suffix = url.slice(splitAt);
+
+      if (!pathname.endsWith(".md")) return;
+
+      let rewritten = `${pathname.slice(0, -3)}.html`;
+
+      // Special-case root index links.
+      if (rewritten === "index.html" || rewritten === "./index.html") {
+        rewritten = "./";
       }
+
+      node.url = rewritten + suffix;
     });
   };
 }
