@@ -80,7 +80,7 @@ export function parseTags(text, source) {
         // _0v.._9v → value with N decimal places, no unit
         s = s.replace(/_([0-9])v/g, (_, d) => Number(value).toFixed(Number(d)));
         // _v → value with source decimals + unit
-        s = s.replace(/_v/g, () => fmt(value));
+        s = s.replace(/_v/g, () => Number(value).toFixed(Number(decimals)));
         // _t → stringValue(value) if available, else _v
         s = s.replace(/_t/g, () => source.stringValue ? source.stringValue(value) : fmt(value));
         // _n → source name

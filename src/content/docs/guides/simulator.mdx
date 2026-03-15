@@ -15,13 +15,14 @@ sidebar:
 ---
 
 import Simulator from "../../../components/Simulator.svelte";
-import { COLOR_RED, COLOR_ORANGE} from "../../../components/ethos_constants.js";
+import { COLOR_RED, COLOR_ORANGE, THEME_DEFAULT_BGCOLOR} from "../../../components/ethos_constants.js";
 
 <Simulator
   client:load
+  initialSource="Lipo2S"
   options={{ showTitle: true, showMinMax: true }}
   logics={[
-    { op: " ≤ ", threshold: 3.5, color: COLOR_RED,    bgcolor: COLOR_RED,    title: "", text: "" },
-    { op: " < ", threshold: 3.7, color: COLOR_ORANGE, bgcolor: COLOR_ORANGE, title: "", text: "" },
+    { op: " ≤ ", threshold: 3.5, color: COLOR_RED,    bgcolor: THEME_DEFAULT_BGCOLOR,    title: "", text: "" },
+    { op: " < ", threshold: 3.7, color: COLOR_ORANGE, bgcolor: THEME_DEFAULT_BGCOLOR, title: "", text: "" },
   ]}
 />

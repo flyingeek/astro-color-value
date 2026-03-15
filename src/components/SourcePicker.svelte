@@ -3,8 +3,12 @@
 
     // Emits the selected source object reactively via bind:source
     export let source = Object.values(SOURCE_CHOICES)[0];
+    export let initialKey = null;
 
-    let selectedKey = Object.keys(SOURCE_CHOICES)[0];
+    let selectedKey =
+        initialKey && SOURCE_CHOICES[initialKey]
+            ? initialKey
+            : Object.keys(SOURCE_CHOICES)[0];
     let sliderValue = source.value ?? 0;
 
     // When the key changes, reset to the source defaults

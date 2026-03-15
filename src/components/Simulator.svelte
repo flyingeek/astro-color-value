@@ -11,9 +11,17 @@
     export let widgetName = "Color Value";
     export let logics = [];
     export let options = {};
+    export let initialSource = null;
 
     // Shared source — updated by SourcePicker, consumed by ValueDisplay & ConfigPanel
-    let source = Object.values(SOURCE_CHOICES)[0];
+    let source =
+        initialSource && SOURCE_CHOICES[initialSource]
+            ? {
+                  ...SOURCE_CHOICES[initialSource],
+                  minValue: SOURCE_CHOICES[initialSource].value ?? 0,
+                  maxValue: SOURCE_CHOICES[initialSource].value ?? 0,
+              }
+            : Object.values(SOURCE_CHOICES)[0];
 
     // Toggle states — bound to ConfigPanel, forwarded to ValueDisplay
     let showMinMax =
@@ -64,7 +72,7 @@
                 height="120px"
             />
         </div>
-        <SourcePicker bind:source />
+        <SourcePicker bind:source initialKey={initialSource} />
     </div>
     <ConfigPanel
         {source}

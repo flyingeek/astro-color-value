@@ -1,5 +1,6 @@
 <script>
     import ColorChoice from "./ColorChoice.svelte";
+    import { tick } from "svelte";
     import {
         CATEGORY_TELEMETRY_SENSOR,
         COLOR_RED,
@@ -140,6 +141,67 @@
     <path d="M3.4 6a.5.5 0 00-.5.54l1.2 13A1 1 0 005.1 20h9.8a1 1 0 001-.46l1.2-13A.5.5 0 0016.6 6H3.4zm3.1 2h.5l.6 9h-1l-.1-9zm3 0h1v9h-1V8zm3 0h.5l-.1 9h-1l.6-9z"/>
   </svg>`;
     const backspaceIconSvg = `<svg fill="#ffffff" width="800px" height="800px" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M 11.59375 7 L 11.28125 7.28125 L 3.28125 15.28125 L 2.59375 16 L 3.28125 16.71875 L 11.28125 24.71875 L 11.59375 25 L 29 25 L 29 7 Z M 12.4375 9 L 27 9 L 27 23 L 12.4375 23 L 5.4375 16 Z M 15.15625 11.75 L 13.75 13.15625 L 16.59375 16 L 13.75 18.84375 L 15.15625 20.25 L 18 17.40625 L 20.84375 20.25 L 22.25 18.84375 L 19.40625 16 L 22.25 13.15625 L 20.84375 11.75 L 18 14.59375 Z"/></svg>`;
+
+    let helpOpen = false;
+    let tagsOpen = false;
+    let tagsTarget = null; // { caseId, field: 'title'|'text', el }
+
+    function openTagsDialog(caseId, field, el) {
+        tagsTarget = { caseId, field, el };
+        tagsOpen = true;
+    }
+
+    function closeTagsDialog() {
+        tagsOpen = false;
+        if (tagsTarget?.el) {
+            const el = tagsTarget.el;
+            tick().then(() => el.focus());
+        }
+        tagsTarget = null;
+    }
+
+    function insertTag(tag) {
+        if (!tagsTarget) return;
+        const { caseId, field } = tagsTarget;
+        const caseItem = cases.find((c) => c._id === caseId);
+        if (!caseItem) return;
+        caseItem[field] = (caseItem[field] ?? "") + " " + tag;
+        cases = cases;
+        closeTagsDialog();
+    }
+
+    // Reactive tag buttons — recalculated when source changes
+    $: _tagButtons = (() => {
+        const src = source;
+        const decimals = src.decimals ?? 0;
+        const val = src.value ?? 0;
+        const unit = src.unit ?? "";
+        const buttons = [];
+        // _n (source name)
+        buttons.push({ label: (src.name ?? "---").slice(0, 12), tag: "_n" });
+        // _t (string value or formatted, max 10 chars)
+        let tLabel;
+        if (src.stringValue) {
+            const r = src.stringValue(val);
+            const s = Array.isArray(r) ? r[0] : r;
+            tLabel = String(s).slice(0, 10);
+        } else {
+            tLabel = (Number(val).toFixed(decimals) + unit).slice(0, 10);
+        }
+        buttons.push({ label: tLabel, tag: "_t" });
+        // _nv (decimals-1) only if decimals > 1
+        if (decimals > 1) {
+            buttons.push({
+                label: Number(val).toFixed(decimals - 1),
+                tag: `_${decimals - 1}v`,
+            });
+        }
+        // _v (value with source decimals)
+        buttons.push({ label: Number(val).toFixed(decimals), tag: "_v" });
+        // _b (line break)
+        buttons.push({ label: "_b", tag: "_b" });
+        return buttons;
+    })();
 </script>
 
 <!-- Ethos screen: 800×480 px -->
@@ -224,7 +286,19 @@
                                             on:input={() => (cases = cases)}
                                             placeholder="…"
                                         />
-                                        <button class="tag-btn">···</button>
+                                        <button
+                                            class="tag-btn"
+                                            on:click={(e) => {
+                                                const inp = e.currentTarget
+                                                    .closest(".sub-right")
+                                                    .querySelector("input");
+                                                openTagsDialog(
+                                                    caseItem._id,
+                                                    "title",
+                                                    inp,
+                                                );
+                                            }}>···</button
+                                        >
                                     </div>
                                 </div>
                             {/if}
@@ -238,7 +312,19 @@
                                         on:input={() => (cases = cases)}
                                         placeholder="…"
                                     />
-                                    <button class="tag-btn">···</button>
+                                    <button
+                                        class="tag-btn"
+                                        on:click={(e) => {
+                                            const inp = e.currentTarget
+                                                .closest(".sub-right")
+                                                .querySelector("input");
+                                            openTagsDialog(
+                                                caseItem._id,
+                                                "text",
+                                                inp,
+                                            );
+                                        }}>···</button
+                                    >
                                 </div>
                             </div>
                         {/if}
@@ -249,7 +335,11 @@
                 {#if cases.length < MAX_CONDITIONS}
                     <div class="add-row">
                         <div class="add-row-left">
-                            <button class="info-btn" title="Help">i</button>
+                            <button
+                                class="info-btn"
+                                title="Help"
+                                on:click={() => (helpOpen = true)}>i</button
+                            >
                         </div>
                         <div class="add-row-right">
                             <button class="add-btn" on:click={addCase}>+</button
@@ -360,6 +450,79 @@
         <div class="sep"></div>
     </div>
     <!-- /form-content -->
+
+    {#if tagsOpen}
+        <div class="dialog-overlay" on:click|self={closeTagsDialog}>
+            <div class="dialog" role="dialog" aria-modal="true">
+                <div class="dialog-title">Insert a tag</div>
+                <div class="dialog-body">
+                    <p>
+                        You may use special tags to insert the source name or
+                        the source value in different precisions. Additional
+                        tags are <strong>__</strong> for underscore, and
+                        <strong>_b</strong> for line break. Click a button to insert
+                        the tag.
+                    </p>
+                </div>
+                <div class="dialog-footer tags-footer">
+                    <button class="dialog-ok" on:click={closeTagsDialog}
+                        >OK</button
+                    >
+                    {#each _tagButtons as btn}
+                        <button
+                            class="tag-insert-btn"
+                            on:click={() => insertTag(btn.tag)}
+                            >{btn.label}</button
+                        >
+                    {/each}
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    {#if helpOpen}
+        <div class="dialog-overlay" on:click|self={() => (helpOpen = false)}>
+            <div class="dialog" role="dialog" aria-modal="true">
+                <div class="dialog-title">Help</div>
+                <div class="dialog-body">
+                    <p>
+                        The widget displays the source value using the default
+                        theme color. You may add up to 5 thresholds, each using
+                        their own colors. The order is important as only the
+                        first match is considered. The case matching the current
+                        condition is highlighted.
+                    </p>
+                    <p>
+                        If you enable <strong>Background Color</strong>, you may
+                        set the text color and the background color.
+                    </p>
+                    <p>
+                        If the source is a sensor and the telemetry is lost, the
+                        theme's warning color will be used without background.<br
+                        />If the widget has the focus, the focus color is
+                        applied.
+                    </p>
+                    <p>
+                        <strong>Custom States</strong>, when set, override the
+                        value with a custom text, and special tags are available
+                        in the button next to the state field. When state is
+                        empty, the default value is shown in the widget.
+                    </p>
+                    <p>
+                        For sensors, <strong>Minimum and Maximum</strong> can be
+                        displayed in the widget, otherwise those values will be shown
+                        in the widget's menu.
+                    </p>
+                </div>
+                <div class="dialog-footer">
+                    <button
+                        class="dialog-ok"
+                        on:click={() => (helpOpen = false)}>OK</button
+                    >
+                </div>
+            </div>
+        </div>
+    {/if}
 </div>
 
 <!-- /ethos-screen -->
@@ -371,6 +534,7 @@
     }
 
     .ethos-screen {
+        position: relative;
         width: 720px;
         height: 432px;
         background: #292829;
@@ -677,8 +841,9 @@
     }
     .add-row-left {
         display: flex;
-        align-items: flex-end;
-        gap: 10px;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
     }
     .add-row-right {
         display: flex;
@@ -721,6 +886,113 @@
         line-height: 1;
     }
     .add-btn:hover {
+        background: #f4b554;
+        color: #212021;
+    }
+
+    /* ── Tags footer ────────────────────────────────── */
+    .tags-footer {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .tag-insert-btn {
+        height: 34px;
+        min-width: 50px;
+        background: #3a3a3c;
+        border: 1px solid #545456;
+        border-radius: 6px;
+        color: #f0f0f0;
+        font-size: 15px;
+        cursor: pointer;
+        padding: 0 12px;
+        font-family: monospace;
+        white-space: nowrap;
+    }
+    .tag-insert-btn:hover {
+        background: #f4b554;
+        color: #212021;
+    }
+
+    /* ── Help dialog ─────────────────────────────────── */
+    .dialog-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+    .dialog {
+        width: 560px;
+        max-height: 380px;
+        background: #292829;
+        border: 1px solid #545456;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+            system-ui, sans-serif;
+        color: #f0f0f0;
+    }
+    .dialog-title {
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px 16px;
+        border-bottom: 1px solid #3a3a3c;
+        background: #212021;
+        flex-shrink: 0;
+    }
+    .dialog-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px 20px;
+        font-size: 15px;
+        line-height: 1.55;
+        color: #d0d0d0;
+    }
+    .dialog-body::-webkit-scrollbar {
+        width: 4px;
+    }
+    .dialog-body::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .dialog-body::-webkit-scrollbar-thumb {
+        background: #f4b554;
+        border-radius: 2px;
+    }
+    .dialog-body p {
+        margin: 0 0 10px 0;
+    }
+    .dialog-body p:last-child {
+        margin-bottom: 0;
+    }
+    .dialog-body strong {
+        color: #f0f0f0;
+        font-weight: 600;
+    }
+    .dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 16px;
+        border-top: 1px solid #3a3a3c;
+        flex-shrink: 0;
+    }
+    .dialog-ok {
+        height: 34px;
+        min-width: 80px;
+        background: #3a3a3c;
+        border: 1px solid #545456;
+        border-radius: 6px;
+        color: #f0f0f0;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0 20px;
+    }
+    .dialog-ok:hover {
         background: #f4b554;
         color: #212021;
     }
