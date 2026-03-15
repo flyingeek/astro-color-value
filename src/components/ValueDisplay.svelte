@@ -1,4 +1,6 @@
 <script>
+    import { CATEGORY_TELEMETRY_SENSOR } from "./ethos_constants.js";
+
     // Adjustable dimensions
     export let width = "320px"; //"430px";
     export let height = "120px"; // "180px";
@@ -13,7 +15,7 @@
     $: _unit = source.unit ?? "";
     $: _name = source.name ?? "---";
     $: _value = source.value ?? 0;
-    $: _isSensor = source.isSensor ?? false;
+    $: _isSensor = source.category === CATEGORY_TELEMETRY_SENSOR;
     $: _minValue = source.minValue ?? _value;
     $: _maxValue = source.maxValue ?? _value;
     $: _minimum = source.minimum ?? -1024;
@@ -35,20 +37,20 @@
     $: _minMaxFontSize = options.minMaxFontSize ?? "24px";
 
     // --- Resolved colors ---
-    $: _bgColor = _useBackground ? _backgroundColor : "#2a2a2a";
+    $: _bgColor = _useBackground ? _backgroundColor : "#292829";
     $: _titleColor = _useBackground ? _textColor : "#888888";
     $: _valueColor = _textColor;
     $: _minMaxColor = _useBackground ? _textColor : "#ffffff";
     $: _dividerColor = _useBackground ? _textColor + "55" : "#ffffff";
 
-    // --- Format helpers ---
-    // stringValues(v) → string[] for the main value display
-    function _format(val) {
-        if (source.stringValues) return source.stringValues(val);
-        return [`${val.toFixed(decimals)}${_unit}`];
-    }
-
-    $: _displayLines = _format(_value);
+    $: _displayLines = (() => {
+        const fmt = source.stringValue
+            ? (v) => source.stringValue(v)
+            : (v) => `${Number(v).toFixed(decimals)}${_unit}`;
+        if (Array.isArray(_value)) return _value.map(fmt);
+        if (_value != null) return [fmt(_value)];
+        return [];
+    })();
     $: _maxDisplay = Number(_maxValue).toFixed(decimals);
     $: _minDisplay = Number(_minValue).toFixed(decimals);
 
@@ -104,6 +106,10 @@
 </div>
 
 <style>
+    * {
+        margin-top: 0;
+    }
+
     .gauge {
         position: relative;
         display: flex;

@@ -12,11 +12,12 @@ sidebar:
 ---
 
 import ValueDisplay from "../../../components/ValueDisplay.svelte";
+import { CATEGORY_TELEMETRY_SENSOR } from "../../../components/ethos_constants.js";
 
 ## Défaut (capteur RSSI)
 
 <ValueDisplay
-  source={{ name: "RSSI", value: 64, unit: "dB", isSensor: true, minValue: 42, maxValue: 78 }}
+  source={{ name: "RSSI", value: 64, unit: "dB", category: CATEGORY_TELEMETRY_SENSOR, minValue: 42, maxValue: 78 }}
 />
 
 ## Sans titre, sans min/max
@@ -29,28 +30,28 @@ import ValueDisplay from "../../../components/ValueDisplay.svelte";
 ## Titre multi-lignes
 
 <ValueDisplay
-  source={{ name: "GPS SAT", value: 9, unit: "", title: ["GPS", "Satellites"], isSensor: true, minValue: 6, maxValue: 12, stringValues: (value) => ["It is", "OK"] }}
+  source={{ name: "GPS SAT", value: 9, unit: "", title: ["GPS", "Satellites"], category: CATEGORY_TELEMETRY_SENSOR, minValue: 6, maxValue: 12 }}
   options={{ valueFontSize: "36px" }}
 />
 
 ## Avec fond coloré
 
 <ValueDisplay
-  source={{ name: "RxBatt", value: 3.85, unit: "V", isSensor: true, minValue: 3.60, maxValue: 4.18, decimals: 2 }}
+  source={{ name: "RxBatt", value: 3.85, unit: "V", category: CATEGORY_TELEMETRY_SENSOR, minValue: 3.60, maxValue: 4.18, decimals: 2 }}
   options={{ useBackground: true, backgroundColor: "#f40e0e", textColor: "#060606" }}
 />
 
-## Valeur flottante, stringValues personnalisé
+## Valeur flottante, stringValue personnalisé
 
 <ValueDisplay
   source={{
     name: "Altitude",
     value: 312.7,
     unit: "m",
-    isSensor: true,
+    category: CATEGORY_TELEMETRY_SENSOR,
     minValue: 0,
     maxValue: 980,
-    stringValues: (v) => [v.toFixed(1) + " m"]
+    stringValue: (v) => v.toFixed(1) + " m"
   }}
 />
 
@@ -59,6 +60,6 @@ import ValueDisplay from "../../../components/ValueDisplay.svelte";
 <ValueDisplay
   width="300px"
   height="120px"
-  source={{ name: "Throttle", value: 75, unit: "%", isSensor: true }}
+  source={{ name: "Throttle", value: 75, unit: "%" }}
   options={{ valueFontSize: "48px" }}
 />

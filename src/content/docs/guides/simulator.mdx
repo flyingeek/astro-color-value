@@ -1,0 +1,25 @@
+---
+title: Simulator
+draft: false
+pagefind: false
+template: doc
+head: []
+editUrl: false
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+
+import Simulator from "../../../components/Simulator.svelte";
+import { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW } from "../../../components/ethos_constants.js";
+
+<Simulator
+  client:load
+  options={{ showTitle: true, showMinMax: true }}
+  logics={[
+    { op: " ≤ ", threshold: 3.5, color: COLOR_RED,    bgcolor: COLOR_RED,    title: "", text: "" },
+    { op: " < ", threshold: 3.7, color: COLOR_ORANGE, bgcolor: COLOR_ORANGE, title: "", text: "" },
+    { op: " < ", threshold: 3.9, color: COLOR_YELLOW, bgcolor: COLOR_YELLOW, title: "", text: "" },
+  ]}
+/>

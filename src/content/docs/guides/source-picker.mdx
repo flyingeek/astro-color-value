@@ -1,0 +1,41 @@
+---
+title: Source Picker
+draft: false
+pagefind: false
+template: doc
+head: []
+editUrl: false
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+
+import SourcePicker from "../../../components/SourcePicker.svelte";
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+import ConfigPanel from "../../../components/ConfigPanel.svelte";
+import { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW } from "../../../components/ethos_constants.js";
+
+export const logics = [
+  { op: " ≤ ", threshold: 3.5, color: COLOR_RED,    bgcolor: COLOR_RED,    title: "", text: "" },
+  { op: " < ", threshold: 3.7, color: COLOR_ORANGE, bgcolor: COLOR_ORANGE, title: "", text: "" },
+  { op: " < ", threshold: 3.9, color: COLOR_YELLOW, bgcolor: COLOR_YELLOW, title: "", text: "" },
+];
+
+<SourcePicker client:load />
+
+---
+
+Vous pouvez combiner `SourcePicker` avec `ValueDisplay` et `ConfigPanel` via `bind:source` :
+
+```svelte
+<script>
+  import SourcePicker from "../../../components/SourcePicker.svelte";
+  import ValueDisplay from "../../../components/ValueDisplay.svelte";
+
+  let source = {};
+</script>
+
+<SourcePicker bind:source />
+<ValueDisplay {source} />
+```
