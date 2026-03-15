@@ -187,6 +187,9 @@
                                     {/each}
                                 </select>
                                 <div class="thr-wrap">
+                                    {#if _unit}<span class="thr-unit"
+                                            >{_unit}</span
+                                        >{/if}
                                     <input
                                         type="number"
                                         class="thr-inp"
@@ -195,9 +198,6 @@
                                         min={_minimum}
                                         max={_maximum}
                                     />
-                                    {#if _unit}<span class="thr-unit"
-                                            >{_unit}</span
-                                        >{/if}
                                 </div>
                                 <div class="colors">
                                     <ColorChoice bind:value={caseItem.color} />
@@ -541,8 +541,8 @@
         transform: rotate(180deg);
     }
     .del-btn :global(svg) {
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
     }
     .del-btn:hover {
         background: #f4b554;
@@ -576,32 +576,33 @@
         cursor: pointer;
     }
     .thr-wrap {
-        position: relative;
         flex: 1;
         min-width: 0;
         display: flex;
         align-items: center;
+        background: #3a3a3c;
+        border: 1px solid #545456;
+        border-radius: 6px;
+        height: 32px;
+        padding: 0 8px;
+        box-sizing: border-box;
     }
     .thr-unit {
-        position: absolute;
-        right: 26px; /* leave room for the native number spinner */
-        pointer-events: none;
         font-size: 18px;
         color: #8e8e93;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     .thr-inp {
-        width: 100%;
+        flex: 1;
         min-width: 0;
-        background: #3a3a3c;
-        border: 1px solid #545456;
+        background: transparent;
+        border: none;
+        outline: none;
         color: #f0f0f0;
-        border-radius: 6px;
-        height: 32px;
         font-size: 18px;
-        box-sizing: border-box;
-        padding: 0 8px;
-        padding-right: 46px; /* room for unit label + spinner */
+        height: 100%;
+        padding: 0;
         text-align: right;
     }
     .colors {
