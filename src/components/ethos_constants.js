@@ -171,7 +171,7 @@ export const SOURCE_CHOICES = {
         "maximum": 1024,
         "value": 0,
         "stringValue": (value) => {
-            return (value / 1024 * 100).toFixed(0).toString();
+            return (value / 1024 * 100).toFixed(0).toString() + "%";
         }
     },
     "Current F.M.": {

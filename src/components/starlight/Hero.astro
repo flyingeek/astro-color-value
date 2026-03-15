@@ -33,7 +33,7 @@ if (image) {
   }
 }
 
-const imageStyle = `transform: rotate(${heroImageRotate}deg); transform-origin: center;`;
+const imageStyle = ""; //`transform: rotate(${heroImageRotate}deg); transform-origin: center;`;
 ---
 
 <div class="hero">
@@ -83,9 +83,15 @@ const imageStyle = `transform: rotate(${heroImageRotate}deg); transform-origin: 
     .hero > img,
     .hero > .hero-html {
       object-fit: contain;
-      width: min(70%, 20rem);
+      width: min(70%, 50rem);
       height: auto;
       margin-inline: auto;
+      border-radius: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(255, 200, 100, 0.15),
+        0 0 120px rgba(255, 160, 50, 0.08);
     }
 
     .stack {
@@ -154,8 +160,7 @@ const imageStyle = `transform: rotate(${heroImageRotate}deg); transform-origin: 
       color: var(--sl-color-white);
       padding-inline: 0;
     }
-
-    @media (min-width: 50rem) {
+    @media (min-width: 55rem) {
       .hero {
         grid-template-columns: 6fr 7fr;
         gap: 3%;
@@ -166,6 +171,43 @@ const imageStyle = `transform: rotate(${heroImageRotate}deg); transform-origin: 
       .hero > .hero-html {
         order: 2;
         width: min(100%, 25rem);
+      }
+      .hero > img {
+        transform: rotate(8deg); transform-origin: center;
+      }
+
+      .stack {
+        text-align: start;
+      }
+
+      .copy {
+        align-items: flex-start;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .sl-link-button {
+        font-size: var(--sl-text-base);
+        padding: 0.9375rem 1.25rem;
+      }
+    }
+  }
+    @media (min-width: 70rem) {
+      .hero {
+        grid-template-columns: 6fr 7fr;
+        gap: 3%;
+        padding-block: clamp(2.5rem, calc(1rem + 10vmin), 10rem);
+      }
+
+      .hero > img,
+      .hero > .hero-html {
+        order: 2;
+        width: min(100%, 40rem);
+      }
+      .hero > img {
+        transform: rotate(8deg); transform-origin: center;
       }
 
       .stack {

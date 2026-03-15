@@ -11,10 +11,25 @@ sidebar:
   attrs: {}
 
 ---
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+import { CATEGORY_TELEMETRY_SENSOR } from "../../../components/ethos_constants.js";
 
 `_b` is one of the simpliest tag to use, it is replaced by a line break (new line)
 
 Height is often limited in widget, nevertheless, having a multiline option can be useful.
+
+<br/>
+
+<ValueDisplay
+  source={{
+    value: ["line3", "line4"],
+    title: ["line1", "line2"],
+    stringValue: (v) => v,
+  }}
+  options={{
+    valueFontSize: "36px"
+  }}
+/>
 
 ## Further reading
 
