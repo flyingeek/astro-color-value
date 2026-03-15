@@ -67,7 +67,7 @@ export function resolveColor(c) {
 // Substitute _tags in a text/title string using source properties.
 // Skipping _b (line-break tag) for now — returns a single string.
 export function parseTags(text, source) {
-    if (!text || !text.includes('_')) return text;
+    if (!text) return [""];
 
     const value    = source.value    ?? 0;
     const decimals = source.decimals ?? 0;
@@ -77,37 +77,36 @@ export function parseTags(text, source) {
         return `${Number(v).toFixed(decimals)}${unit}`;
     }
 
-    // Protect __ → placeholder before substitutions
-    let s = text.replace(/__/g, '\x00');
+    function applySubstitutions(s) {
+        // _0v.._9v → value with N decimal places, no unit
+        s = s.replace(/_([0-9])v/g, (_, d) => Number(value).toFixed(Number(d)));
+        // _v → value with source decimals + unit
+        s = s.replace(/_v/g, () => fmt(value));
+        // _t → stringValue(value) if available, else _v
+        s = s.replace(/_t/g, () => source.stringValue ? source.stringValue(value) : fmt(value));
+        // _n → source name
+        s = s.replace(/_n/g, () => source.name ?? "");
+        // _u → unit
+        s = s.replace(/_u/g, () => unit);
+        // _10v, _100v, ... → floor(0.5 + value × 10ⁿ)
+        s = s.replace(/_1(0+)v/g, (_, zeros) => {
+            const m = Number('1' + zeros);
+            return String(Math.floor(0.5 + value * m));
+        });
+        // _Nx (e.g. _2x, _0.5x) → value × N formatted with source decimals + unit
+        s = s.replace(/_([0-9]+(?:\.[0-9]+)?)x/g, (_, multiplier) =>
+            fmt(value * Number(multiplier))
+        );
+        return s;
+    }
 
-    // _0v.._9v → value with N decimal places, no unit
-    s = s.replace(/_([0-9])v/g, (_, d) => Number(value).toFixed(Number(d)));
+    if (!text.includes('_')) return [text];
 
-    // _v → value with source decimals + unit
-    s = s.replace(/_v/g, () => fmt(value));
-
-    // _t → stringValue(value) if available, else _v
-    s = s.replace(/_t/g, () => source.stringValue ? source.stringValue(value) : fmt(value));
-
-    // _n → source name
-    s = s.replace(/_n/g, () => source.name ?? "");
-
-    // _u → unit
-    s = s.replace(/_u/g, () => unit);
-
-    // _10v, _100v, ... → floor(0.5 + value × 10ⁿ)
-    s = s.replace(/_1(0+)v/g, (_, zeros) => {
-        const m = Number('1' + zeros);
-        return String(Math.floor(0.5 + value * m));
-    });
-
-    // _Nx (e.g. _2x, _0.5x) → value × N formatted with source decimals + unit
-    s = s.replace(/_([0-9]+(?:\.[0-9]+)?)x/g, (_, multiplier) =>
-        fmt(value * Number(multiplier))
+    // Protect __ → placeholder, split on _b, apply substitutions, restore __
+    const encoded = text.replace(/__/g, '\x00');
+    return encoded.split('_b').map(part =>
+        applySubstitutions(part).replace(/\x00/g, '_')
     );
-
-    // Restore __ placeholder → _
-    return s.replace(/\x00/g, '_');
 }
 
 export const SOURCE_CHOICES = {

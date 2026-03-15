@@ -1,5 +1,6 @@
 <script>
     import { CATEGORY_TELEMETRY_SENSOR } from "./ethos_constants.js";
+    import { afterUpdate } from "svelte";
 
     // Adjustable dimensions
     export let width = "320px"; //"430px";
@@ -36,6 +37,29 @@
     $: _valueFontSize = options.valueFontSize ?? "48px";
     $: _minMaxFontSize = options.minMaxFontSize ?? "24px";
 
+    // Auto-shrink value font size on overflow
+    let valueArea;
+    let _autoValueFontSize = _valueFontSize;
+    $: _autoValueFontSize = _valueFontSize; // reset when prop changes
+    const _fontSizeCandidates = [48, 36, 24, 18, 14];
+    afterUpdate(() => {
+        if (!valueArea) return;
+        // Find the numeric base size from configured font
+        const base = parseInt(_valueFontSize) || 48;
+        const candidates = _fontSizeCandidates.filter((s) => s <= base);
+        for (const size of candidates) {
+            const candidate = size + "px";
+            if (candidate !== _autoValueFontSize)
+                _autoValueFontSize = candidate;
+            // Check all lines for overflow after applying this size
+            const lines = valueArea.querySelectorAll(".value-line");
+            const overflows = Array.from(lines).some(
+                (el) => el.scrollWidth > valueArea.clientWidth + 1,
+            );
+            if (!overflows) return;
+        }
+    });
+
     // --- Resolved colors ---
     $: _bgColor = _useBackground ? _backgroundColor : "#292829";
     $: _titleColor = _useBackground ? _textColor : "#888888";
@@ -44,9 +68,11 @@
     $: _dividerColor = _useBackground ? _textColor + "55" : "#ffffff";
 
     $: _displayLines = (() => {
-        const fmt = source.stringValue
-            ? (v) => source.stringValue(v)
-            : (v) => `${Number(v).toFixed(decimals)}${_unit}`;
+        if (source.stringValue) {
+            const result = source.stringValue(_value);
+            return Array.isArray(result) ? result : [result];
+        }
+        const fmt = (v) => `${Number(v).toFixed(decimals)}${_unit}`;
         if (Array.isArray(_value)) return _value.map(fmt);
         if (_value != null) return [fmt(_value)];
         return [];
@@ -74,7 +100,7 @@
     --minmax-color: {_minMaxColor};
     --divider-color: {_dividerColor};
     --title-font-size: {_titleFontSize};
-    --value-font-size: {_valueFontSize};
+    --value-font-size: {_autoValueFontSize};
     --minmax-font-size: {_minMaxFontSize};
   "
 >
@@ -88,7 +114,7 @@
             </div>
         {/if}
 
-        <div class="value-area">
+        <div class="value-area" bind:this={valueArea}>
             {#each _displayLines as line}
                 <span class="value-line">{line}</span>
             {/each}

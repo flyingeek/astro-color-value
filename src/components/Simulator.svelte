@@ -40,13 +40,16 @@
 
     // When useState is on, override source title and/or stringValue from matched case
     $: liveSource = (() => {
-        if (!useState || (matchedTitle === null && matchedText === null))
-            return source;
+        // Always read these so Svelte tracks them as dependencies
+        const mt = matchedTitle;
+        const mx = matchedText;
+        if (!useState) return source;
+        const hasTitle = mt !== null && mt !== "";
+        const hasText = mx !== null && mx !== "";
+        if (!hasTitle && !hasText) return source;
         const overrides = {};
-        if (matchedTitle !== null)
-            overrides.title = parseTags(matchedTitle, source);
-        if (matchedText !== null)
-            overrides.stringValue = () => parseTags(matchedText, source);
+        if (hasTitle) overrides.title = parseTags(mt, source);
+        if (hasText) overrides.stringValue = () => parseTags(mx, source);
         return { ...source, ...overrides };
     })();
 </script>
