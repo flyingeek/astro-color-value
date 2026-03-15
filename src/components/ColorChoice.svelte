@@ -86,29 +86,38 @@
     .menu {
         display: none;
         position: absolute;
-        top: 32px;
-        width: 100%;
+        top: calc(100% + 2px);
+        right: 0;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        padding: 4px;
         background: #3a3a3c;
         border: 1px solid #545456;
         border-radius: 6px;
-        overflow: hidden;
         z-index: 10;
     }
 
     .menu.open {
-        display: block;
+        display: grid;
     }
 
     .option {
-        height: 32px;
+        width: 24px;
+        height: 24px;
         display: flex;
         align-items: center;
-        padding-left: 8px;
+        justify-content: center;
         cursor: pointer;
+        border-radius: 3px;
         margin-top: 0;
     }
 
     .option:hover {
         background: #48484a;
+    }
+
+    .option .square {
+        width: 18px;
+        height: 18px;
     }
 </style>
