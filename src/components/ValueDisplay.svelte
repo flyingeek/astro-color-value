@@ -28,7 +28,6 @@
     // --- Option defaults ---
     $: _showTitle = options.showTitle ?? true;
     $: _showMinMax = options.showMinMax ?? _isSensor === true;
-    $: _useTags = options.useTags ?? false;
     $: _useBackground = options.useBackground ?? false;
     $: _textColor = options.textColor ?? "#ffffff";
     $: _backgroundColor = options.backgroundColor ?? "#333333";

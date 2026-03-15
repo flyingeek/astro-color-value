@@ -32,6 +32,7 @@ export default defineConfig({
                         { label: 'Example Guide', slug: 'guides/example' },
                         { label: 'Config Panel', slug: 'guides/config-panel' },
                         { label: 'Value Display', slug: 'guides/value-display' },
+                        { label: 'Simulator', slug: 'guides/simulator' },
                     ],
                 },
                 {

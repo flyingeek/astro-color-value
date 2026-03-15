@@ -44,8 +44,8 @@
         const mt = matchedTitle;
         const mx = matchedText;
         if (!useState) return source;
-        const hasTitle = mt !== null && mt !== "";
-        const hasText = mx !== null && mx !== "";
+        const hasTitle = mt !== null;
+        const hasText = mx !== null;
         if (!hasTitle && !hasText) return source;
         const overrides = {};
         if (hasTitle) overrides.title = parseTags(mt, source);

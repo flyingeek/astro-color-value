@@ -53,10 +53,7 @@
     $: maximum = source.maximum ?? 1024;
     $: unit = source.unit ?? "";
 
-    $: displayValue = (() => {
-        //if (source.stringValue) return source.stringValue(sliderValue);
-        return `${Number(sliderValue).toFixed(decimals)}`;
-    })();
+    $: displayValue = `${Number(sliderValue).toFixed(decimals)}`;
 </script>
 
 <div class="source-picker">
