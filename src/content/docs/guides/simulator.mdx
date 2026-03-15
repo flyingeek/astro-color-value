@@ -1,10 +1,13 @@
 ---
 title: Simulator
 draft: false
-pagefind: false
+pagefind: true
 template: doc
 head: []
 editUrl: false
+tableOfContents: false
+prev: false
+next: false
 sidebar:
   hidden: false
   attrs: {}
@@ -12,7 +15,7 @@ sidebar:
 ---
 
 import Simulator from "../../../components/Simulator.svelte";
-import { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW } from "../../../components/ethos_constants.js";
+import { COLOR_RED, COLOR_ORANGE} from "../../../components/ethos_constants.js";
 
 <Simulator
   client:load
@@ -20,6 +23,5 @@ import { COLOR_RED, COLOR_ORANGE, COLOR_YELLOW } from "../../../components/ethos
   logics={[
     { op: " ≤ ", threshold: 3.5, color: COLOR_RED,    bgcolor: COLOR_RED,    title: "", text: "" },
     { op: " < ", threshold: 3.7, color: COLOR_ORANGE, bgcolor: COLOR_ORANGE, title: "", text: "" },
-    { op: " < ", threshold: 3.9, color: COLOR_YELLOW, bgcolor: COLOR_YELLOW, title: "", text: "" },
   ]}
 />

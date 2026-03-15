@@ -60,8 +60,8 @@
             <ValueDisplay
                 source={liveSource}
                 options={liveOptions}
-                width="100%"
-                height="100%"
+                width="300px"
+                height="120px"
             />
         </div>
         <SourcePicker bind:source />
@@ -92,7 +92,7 @@
         flex-direction: column;
         gap: 8px;
         width: 100%;
-        max-width: 800px;
+        max-width: 720px;
     }
 
     .top-row {

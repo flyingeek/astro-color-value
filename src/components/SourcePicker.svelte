@@ -104,7 +104,7 @@
         flex-direction: column;
         gap: 2px;
         font-family: var(--sl-font, system-ui, sans-serif);
-        font-size: 14px;
+        font-size: 18px;
         color: var(--sl-color-text, #f0f0f0);
         box-sizing: border-box;
         margin-top: 0px;
@@ -128,7 +128,7 @@
         border: 1px solid var(--sl-color-hairline, #3a3a3c);
         border-radius: 6px;
         color: var(--sl-color-text, #f0f0f0);
-        font-size: 14px;
+        font-size: 18px;
         height: 32px;
         padding: 0 8px;
         cursor: pointer;
@@ -141,17 +141,17 @@
 
     .value-display {
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
         color: var(--sl-color-white, #ffffff);
         letter-spacing: 0.02em;
         line-height: 1.2;
         min-height: 28px;
+        margin-top: 10px;
     }
 
     .slider-row {
         gap: 8px;
-        margin-top: 0px;
     }
 
     .range-bound {

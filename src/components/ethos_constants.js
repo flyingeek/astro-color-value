@@ -40,7 +40,6 @@ export const COLOR_ORANGE = "#FFA500";
 
 // Color palette for color pickers
 export const COLOR_CHOICES = [
-    COLOR_BLACK,
     THEME_DEFAULT_BGCOLOR,
     COLOR_WHITE,
     COLOR_RED,
@@ -115,8 +114,8 @@ export const SOURCE_CHOICES = {
         "category": CATEGORY_TELEMETRY_SENSOR,
         "unit": "V",
         "decimals": 2,
-        "minimum": 0,
-        "maximum": 4.5,
+        "minimum": 3,
+        "maximum": 4.4,
         "value": 4.15
     },
     "Lipo2S": {
@@ -124,8 +123,8 @@ export const SOURCE_CHOICES = {
         "category": CATEGORY_TELEMETRY_SENSOR,
         "unit": "V",
         "decimals": 2,
-        "minimum": 0,
-        "maximum": 8.7,
+        "minimum": 6,
+        "maximum": 8.8,
         "value": 8.3,
     },
     "Rssi": {
