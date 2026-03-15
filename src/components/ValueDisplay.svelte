@@ -1,54 +1,88 @@
 <script>
     import { CATEGORY_TELEMETRY_SENSOR } from "./ethos_constants.js";
-    import { afterUpdate } from "svelte";
+    import { untrack } from "svelte";
 
     // Adjustable dimensions
-    export let width = "320px"; //"430px";
-    export let height = "120px"; // "180px";
-
-    // Data source object
-    export let source = {};
-
-    // Display options object
-    export let options = {};
+    let {
+        width = "320px",
+        height = "120px",
+        source = {},
+        options = {},
+    } = $props();
 
     // --- Source defaults ---
-    $: _unit = source.unit ?? "";
-    $: _name = source.name ?? "---";
-    $: _value = source.value ?? 0;
-    $: _isSensor = source.category === CATEGORY_TELEMETRY_SENSOR;
-    $: _minValue = source.minValue ?? _value;
-    $: _maxValue = source.maxValue ?? _value;
-    $: _minimum = source.minimum ?? -1024;
-    $: _maximum = source.maximum ?? 1024;
-    $: decimals = source.decimals ?? 0;
+    let _unit = $derived(source.unit ?? "");
+    let _name = $derived(source.name ?? "---");
+    let _value = $derived(source.value ?? 0);
+    let _isSensor = $derived(source.category === CATEGORY_TELEMETRY_SENSOR);
+    let _minValue = $derived(source.minValue ?? _value);
+    let _maxValue = $derived(source.maxValue ?? _value);
+    let _minimum = $derived(source.minimum ?? -1024);
+    let _maximum = $derived(source.maximum ?? 1024);
+    let decimals = $derived(source.decimals ?? 0);
     // title: array | string | null | undefined → falls back to name
-    $: _title = source.title !== undefined ? source.title : _name;
+    let _title = $derived(source.title !== undefined ? source.title : _name);
 
     // --- Option defaults ---
-    $: _showTitle = options.showTitle ?? true;
-    $: _showMinMax = options.showMinMax ?? _isSensor === true;
-    $: _useBackground = options.useBackground ?? false;
-    $: _textColor = options.textColor ?? "#ffffff";
-    $: _backgroundColor = options.backgroundColor ?? "#333333";
+    let _showTitle = $derived(options.showTitle ?? true);
+    let _showMinMax = $derived(options.showMinMax ?? _isSensor === true);
+    let _useBackground = $derived(options.useBackground ?? false);
+    let _textColor = $derived(options.textColor ?? "#ffffff");
+    let _backgroundColor = $derived(options.backgroundColor ?? "#333333");
     // Title size is intentionally fixed; value / min-max sizes are adjustable
-    $: _titleFontSize = options.titleFontSize ?? "18px";
-    $: _valueFontSize = options.valueFontSize ?? "48px";
-    $: _minMaxFontSize = options.minMaxFontSize ?? "24px";
+    let _titleFontSize = $derived(options.titleFontSize ?? "18px");
+    let _valueFontSize = $derived(options.valueFontSize ?? "48px");
+    let _minMaxFontSize = $derived(options.minMaxFontSize ?? "24px");
+
+    // --- Display lines ---
+    let _displayLines = $derived.by(() => {
+        if (source.stringValue) {
+            const result = source.stringValue(_value);
+            return Array.isArray(result) ? result : [result];
+        }
+        const fmt = (v) => `${Number(v).toFixed(decimals)}${_unit}`;
+        if (Array.isArray(_value)) return _value.map(fmt);
+        if (_value != null) return [fmt(_value)];
+        return [];
+    });
+    let _maxDisplay = $derived(Number(_maxValue).toFixed(decimals));
+    let _minDisplay = $derived(Number(_minValue).toFixed(decimals));
+
+    // --- Title lines ---
+    let _titleLines = $derived.by(() => {
+        if (!_showTitle) return [];
+        if (Array.isArray(_title)) return _title.map(String);
+        if (_title != null && _title !== "") return [String(_title)];
+        return [];
+    });
+
+    // --- Resolved colors ---
+    let _bgColor = $derived(_useBackground ? _backgroundColor : "#292829");
+    let _titleColor = $derived(_useBackground ? _textColor : "#888888");
+    let _valueColor = $derived(_textColor);
+    let _minMaxColor = $derived(_useBackground ? _textColor : "#ffffff");
+    let _dividerColor = $derived(
+        _useBackground ? _textColor + "55" : "#ffffff",
+    );
 
     // Auto-shrink value font size on overflow
-    let valueArea;
-    let _autoValueFontSize = _valueFontSize;
-    $: _autoValueFontSize = _valueFontSize; // reset when prop changes
+    let valueArea = $state(null);
+    let _autoValueFontSize = $state("48px");
     const _fontSizeCandidates = [48, 36, 24, 18, 14];
-    afterUpdate(() => {
+
+    $effect(() => {
+        _autoValueFontSize = _valueFontSize; // reset when prop changes
+    });
+
+    $effect(() => {
         if (!valueArea) return;
-        // Find the numeric base size from configured font
-        const base = parseInt(_valueFontSize) || 48;
+        _displayLines; // track content changes
+        const baseFontSize = _valueFontSize;
+        const base = parseInt(baseFontSize) || 48;
         const candidates = _fontSizeCandidates.filter((s) => s <= base);
         for (const size of candidates) {
             const candidate = size + "px";
-            if (candidate !== _autoValueFontSize)
+            if (candidate !== untrack(() => _autoValueFontSize))
                 _autoValueFontSize = candidate;
             // Check all lines for overflow after applying this size
             const lines = valueArea.querySelectorAll(".value-line");
@@ -58,34 +92,6 @@
             if (!overflows) return;
         }
     });
-
-    // --- Resolved colors ---
-    $: _bgColor = _useBackground ? _backgroundColor : "#292829";
-    $: _titleColor = _useBackground ? _textColor : "#888888";
-    $: _valueColor = _textColor;
-    $: _minMaxColor = _useBackground ? _textColor : "#ffffff";
-    $: _dividerColor = _useBackground ? _textColor + "55" : "#ffffff";
-
-    $: _displayLines = (() => {
-        if (source.stringValue) {
-            const result = source.stringValue(_value);
-            return Array.isArray(result) ? result : [result];
-        }
-        const fmt = (v) => `${Number(v).toFixed(decimals)}${_unit}`;
-        if (Array.isArray(_value)) return _value.map(fmt);
-        if (_value != null) return [fmt(_value)];
-        return [];
-    })();
-    $: _maxDisplay = Number(_maxValue).toFixed(decimals);
-    $: _minDisplay = Number(_minValue).toFixed(decimals);
-
-    // --- Title lines ---
-    $: _titleLines = (() => {
-        if (!_showTitle) return [];
-        if (Array.isArray(_title)) return _title.map(String);
-        if (_title != null && _title !== "") return [String(_title)];
-        return [];
-    })();
 </script>
 
 <div

@@ -4,6 +4,7 @@
     // Emits the selected source object reactively via bind:source
     export let source = Object.values(SOURCE_CHOICES)[0];
     export let initialKey = null;
+    export let onkeychange = undefined;
 
     let selectedKey =
         initialKey && SOURCE_CHOICES[initialKey]
@@ -18,6 +19,7 @@
         trackedMin = sliderValue;
         trackedMax = sliderValue;
         source = { ...s, minValue: trackedMin, maxValue: trackedMax };
+        onkeychange?.({ source });
     }
 
     // When the key changes, also reset tracked min/max

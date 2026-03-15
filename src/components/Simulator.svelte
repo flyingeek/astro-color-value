@@ -30,6 +30,12 @@
     let useState = options.useState ?? false;
     let showTitle = options.showTitle ?? true;
 
+    function onSourceKeyChange({ source: newSource }) {
+        showMinMax = newSource.category === CATEGORY_TELEMETRY_SENSOR;
+        useBackground = false;
+        useState = false;
+    }
+
     // Match values — bound from ConfigPanel
     let matchedColor = null;
     let matchedBgColor = null;
@@ -72,7 +78,11 @@
                 height="120px"
             />
         </div>
-        <SourcePicker bind:source initialKey={initialSource} />
+        <SourcePicker
+            bind:source
+            initialKey={initialSource}
+            onkeychange={onSourceKeyChange}
+        />
     </div>
     <ConfigPanel
         {source}
