@@ -7,7 +7,7 @@
     "start": "astro dev",
     "check:home-sync": "node scripts/check-home-sync.mjs",
     "check:link-regressions": "node scripts/check-link-regressions.mjs",
-    "build": "astro build && npm run check:link-regressions",
+    "build": "astro build && node scripts/generate-sw.mjs && npm run check:link-regressions",
     "preview": "astro preview",
     "astro": "astro"
   },

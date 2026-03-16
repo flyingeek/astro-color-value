@@ -23,8 +23,9 @@ export default defineConfig({
         optimizeDeps: { exclude: ['astro/virtual-modules/prefetch.js'] },
         plugins: [
             VitePWA({
+                filename: 'sw.js',
                 registerType: 'autoUpdate',
-                injectRegister: 'auto',
+                injectRegister: 'script',
                 includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
                 manifest: {
                     id: './',
@@ -54,9 +55,6 @@ export default defineConfig({
                             purpose: 'maskable',
                         },
                     ],
-                },
-                workbox: {
-                    globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
                 },
                 devOptions: {
                     enabled: false,
