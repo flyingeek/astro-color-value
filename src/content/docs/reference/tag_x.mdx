@@ -1,0 +1,43 @@
+---
+title: _x tag
+description: The reference for _x tag
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+
+`_Nx` multiplies the source value by `N` and formats the result with the source's default decimal precision and unit.
+
+`N` can be any integer or decimal number: `_2x`, `_0.5x`, `_1.5x`, etc.
+
+For example, for a source with value `8.30V` (Lipo2S):
+- `_2x` outputs `16.60`
+- `_0.5x` outputs `4.15`
+
+A common use case is displaying a cell voltage from a pack voltage.
+
+<br/>
+
+<ValueDisplay
+  source={{
+    name: "Lipo2S",
+    title: ["Lipo2S (8.30V)", "_2xv = 16.60v  |  _0.5xv = 4.15v"],
+    value: "4.15v"
+  }}
+  options={{ valueFontSize: "32px" }}
+/>
+
+:::note
+Unlike `_Nv` which controls decimal places, `_Nx` scales the value while keeping the source's original formatting.
+:::
+
+## Further reading
+
+- Read [What is a tag](./what-is-a-tag.mdx)

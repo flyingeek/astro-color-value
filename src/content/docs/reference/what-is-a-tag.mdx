@@ -1,0 +1,36 @@
+---
+title: What is a tag
+description: Explanation of what a tag is used for
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+
+A tag is simply a special markup or a placeholder which is replaced when displayed by another value.
+
+It can be useful to output complex value in custom states.
+
+## List of all the available tags
+
+| tag                 | replacement value                              | Example |
+|---------------------|------------------------------------------------|---------|
+| [_v](./tag_v.mdx)    | The value of the source using source precision | 4.15    |
+| [_0v](./tag_v.mdx)   | The value of the source as integer             | 4       |
+| [_1v](./tag_v.mdx)   | The value of the source with one decimal       | 4.1     |
+| [_2v](./tag_v.mdx)   | The value of source with 2 decimals            | 4.15    |
+| [_3v](./tag_v.mdx)   | The value of source with 3 decimals            | 4.150   |
+| [_10v](./tag_v.mdx)  | The value multiplied by 10 as integer          | 41      |
+| [_100v](./tag_v.mdx) | The value multiplied by 100 as integer         | 415     |
+| [_t](./tag_t.mdx)    | This is the default value as text with unit    | 4.15V   |
+| [_u](./tag_u.mdx)    | The unit of the source as string               | V       |
+| [_2x](./tag_x.mdx)   | multiplier using source precision              | 8.30    |
+| [_0.5x](./tag_x.mdx) | multiplier using source precision              | 2.07    |
+| [_n](./tag_n.mdx)    | name of the source.                            | RxBatt  |
+| [_b](./tag_b.mdx)    | new line or line break                         |         |
+| [__](./tag__.md)     | you may need it for literal underscore         | _       |

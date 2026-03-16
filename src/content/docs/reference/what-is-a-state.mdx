@@ -16,6 +16,18 @@ A state is a custom text that you want to use when a value match some condition.
 
 A state is often used to show if the motor is active, or is armed. So you can above or below some thresholds decide to replace the source's value by a custom text. For more complex needs, you can also, by using tags modify the way the source's value is shown.
 
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+
+<br/>
+
+<ValueDisplay
+  source={{
+    name: "SA",
+    title: "",
+    value: "Thr ACTIVE"
+  }}
+  options={{ valueFontSize: "48px", textColor: "#000", backgroundColor: "#f00", useBackground:true }}
+/>
 ## Further reading
 
-- Read [What is a tag](./what-is-a-tag.md)
+- Read [What is a tag](./what-is-a-tag.mdx)

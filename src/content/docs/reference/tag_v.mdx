@@ -1,0 +1,89 @@
+---
+title: _v tag
+description: The reference for _v tag
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+
+`_v` outputs the source value formatted with its default decimal precision, **without the unit**.
+
+To include the unit, use [`_t`](./tag_t.mdx) instead, or append [`_u`](./tag_u.mdx) after `_v`.
+
+For example, for a sensor RxBatt with value `4.15V`:
+- `_v` → `4.15`
+- `_v_u` → `4.15V` (same as `_t` for numeric sources)
+
+<br/>
+
+<ValueDisplay
+  source={{
+    name: "RxBatt",
+    title: ["RxBatt", "_v → 4.15  |  _v_u → 4.15V"],
+    value: "4.15"
+  }}
+/>
+
+## Decimal variants: `_0v` … `_9v`
+
+`_Nv` outputs the value with exactly **N decimal places**, overriding the source's default precision.
+
+| Tag | Decimal places | RxBatt (4.15) |
+|-----|---------------|---------------|
+| `_0v` | 0 | `4` |
+| `_1v` | 1 | `4.2` |
+| `_2v` | 2 | `4.15` |
+| `_3v` | 3 | `4.150` |
+
+Useful to save space (fewer decimals) or to force a consistent format across sources with different precisions.
+
+<br/>
+
+<ValueDisplay
+  source={{
+    name: "RxBatt",
+    title: ["_0v → 4   _1v → 4.2   _2v → 4.15"],
+    value: "4.15"
+  }}
+  options={{ valueFontSize: "32px" }}
+/>
+
+## Scale variants: `_10v`, `_100v`, …
+
+`_10v` multiplies the value by 10 and rounds to the nearest integer.
+`_100v` multiplies by 100, and so on.
+
+Useful to display ratio values (0–1) as percentages, or to shift the decimal point for clarity.
+
+For example, for a source with value `0.85` (a 0–1 ratio):
+- `_100v` → `85`
+- `_100v%` → `85%`
+
+| Tag | Formula | Value 0.85 |
+|-----|---------|------------|
+| `_10v` | round(value × 10) | `9` |
+| `_100v` | round(value × 100) | `85` |
+
+<br/>
+
+<ValueDisplay
+  source={{
+    name: "Efficiency",
+    title: ["Efficiency", "_100v% → 85%"],
+    value: "85%"
+  }}
+  options={{ valueFontSize: "36px" }}
+/>
+
+## Further reading
+
+- Read [What is a tag](./what-is-a-tag.mdx)
+- Read [_t tag](./tag_t.mdx)
+- Read [_u tag](./tag_u.mdx)

@@ -19,4 +19,4 @@ Exemple you want to write `12_v`, `_v` is a valid tag so instead, you have to wr
 
 ## Further reading
 
-- Read [What is a tag](./what-is-a-tag.md)
+- Read [What is a tag](./what-is-a-tag.mdx)
