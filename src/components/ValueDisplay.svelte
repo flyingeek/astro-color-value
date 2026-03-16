@@ -1,6 +1,5 @@
 <script>
     import { CATEGORY_TELEMETRY_SENSOR } from "./ethos_constants.js";
-    import { untrack } from "svelte";
 
     // Adjustable dimensions
     let {
@@ -65,25 +64,24 @@
         _useBackground ? _textColor + "55" : "#ffffff",
     );
 
-    // Auto-shrink value font size on overflow
+    // Auto-shrink value font size on overflow (client-only, null = not measured yet)
     let valueArea = $state(null);
-    let _autoValueFontSize = $state("48px");
-    const _fontSizeCandidates = [48, 36, 24, 18, 14];
+    let _shrunkFontSize = $state(null);
+    const _fontSizeCandidates = [48, 36, 30, 24];
 
     $effect(() => {
-        _autoValueFontSize = _valueFontSize; // reset when prop changes
+        _shrunkFontSize = null; // reset when valueFontSize changes
+        _valueFontSize;
     });
 
     $effect(() => {
         if (!valueArea) return;
         _displayLines; // track content changes
-        const baseFontSize = _valueFontSize;
-        const base = parseInt(baseFontSize) || 48;
+        const base = parseInt(_valueFontSize) || 48;
         const candidates = _fontSizeCandidates.filter((s) => s <= base);
         for (const size of candidates) {
             const candidate = size + "px";
-            if (candidate !== untrack(() => _autoValueFontSize))
-                _autoValueFontSize = candidate;
+            _shrunkFontSize = candidate;
             // Check all lines for overflow after applying this size
             const lines = valueArea.querySelectorAll(".value-line");
             const overflows = Array.from(lines).some(
@@ -105,7 +103,7 @@
     --minmax-color: {_minMaxColor};
     --divider-color: {_dividerColor};
     --title-font-size: {_titleFontSize};
-    --value-font-size: {_autoValueFontSize};
+    --value-font-size: {_shrunkFontSize ?? _valueFontSize};
     --minmax-font-size: {_minMaxFontSize};
   "
 >
