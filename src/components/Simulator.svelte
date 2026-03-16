@@ -71,6 +71,7 @@
 <div class="simulator">
     <div class="top-row">
         <div class="value-wrapper">
+            <div class="section-label">Color Value Widget</div>
             <ValueDisplay
                 source={liveSource}
                 options={liveOptions}
@@ -78,11 +79,16 @@
                 height="120px"
             />
         </div>
-        <SourcePicker
-            bind:source
-            initialKey={initialSource}
-            onkeychange={onSourceKeyChange}
-        />
+        <div class="source-wrapper">
+            <div class="section-label section-label--right">
+                Simulated Source
+            </div>
+            <SourcePicker
+                bind:source
+                initialKey={initialSource}
+                onkeychange={onSourceKeyChange}
+            />
+        </div>
     </div>
     <ConfigPanel
         {source}
@@ -98,6 +104,7 @@
         bind:matchedTitle
         bind:matchedText
     />
+    <div class="section-label section-label--center">Configure Panel</div>
 </div>
 
 <style>
@@ -116,13 +123,31 @@
     .top-row {
         display: flex;
         gap: 8px;
-        align-items: stretch;
-        height: 120px;
-        margin-bottom: 16px;
+        align-items: flex-end;
+        margin-bottom: 4px;
     }
 
     .value-wrapper {
         flex: 1;
         min-width: 0;
+    }
+
+    .source-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section-label {
+        font-size: 14px;
+        color: #888888;
+        margin-bottom: 0px;
+        user-select: none;
+    }
+
+    .section-label--right {
+        text-align: right;
+    }
+    .section-label--center {
+        text-align: center;
     }
 </style>
