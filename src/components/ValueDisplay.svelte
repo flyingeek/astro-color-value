@@ -39,7 +39,8 @@
             const result = source.stringValue(_value);
             return Array.isArray(result) ? result : [result];
         }
-        const fmt = (v) => `${Number(v).toFixed(decimals)}${_unit}`;
+        const fmt = (v) =>
+            isNaN(v) ? v : `${Number(v).toFixed(decimals)}${_unit}`;
         if (Array.isArray(_value)) return _value.map(fmt);
         if (_value != null) return [fmt(_value)];
         return [];
