@@ -578,9 +578,9 @@
     .row-label {
         font-size: 18px;
     }
-    .row-label.muted {
+    /* .row-label.muted {
         color: #8e8e93;
-    }
+    } */
     /* Right cell: flex container, right-aligned */
     .row-ctrl {
         display: flex;
