@@ -1,0 +1,15 @@
+---
+import { withBase } from '../../utils/withBase';
+
+const { head } = Astro.locals.starlightRoute;
+
+const manifestHref = withBase('/manifest.webmanifest');
+const registerSWHref = withBase('/registerSW.js');
+const appleTouchIconHref = withBase('/apple-touch-icon.png');
+---
+
+{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+<link rel="manifest" href={manifestHref} />
+<link rel="apple-touch-icon" href={appleTouchIconHref} />
+<meta name="theme-color" content="#292829" />
+<script src={registerSWHref}></script>

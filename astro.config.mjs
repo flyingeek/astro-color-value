@@ -84,6 +84,7 @@ export default defineConfig({
                 },
               ],
             components: {
+                Head: './src/components/starlight/Head.astro',
                 Hero: './src/components/starlight/Hero.astro',
             },
             plugins: [starlightStripMdExtension({ linkFormat: buildFormat })],
