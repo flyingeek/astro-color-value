@@ -27,6 +27,7 @@ For example, for a sensor RxBatt with value `4.15V`:
   source={{
     name: "RxBatt",
     title: ["RxBatt", "_v → 4.15  |  _v_u → 4.15V"],
+    stringValue: (v) => v,
     value: "4.15"
   }}
 />
@@ -49,10 +50,9 @@ Useful to save space (fewer decimals) or to force a consistent format across sou
 <ValueDisplay
   source={{
     name: "RxBatt",
-    title: ["_0v → 4   _1v → 4.2   _2v → 4.15"],
-    value: "4.15"
+    title: ["RxBatt", "_0v → 4   _1v → 4.2   _2v → 4.15"],
+    value: "4.15",
   }}
-  options={{ valueFontSize: "32px" }}
 />
 
 ## Scale variants: `_10v`, `_100v`, …
@@ -62,7 +62,7 @@ Useful to save space (fewer decimals) or to force a consistent format across sou
 
 Useful to display ratio values (0–1) as percentages, or to shift the decimal point for clarity.
 
-For example, for a source with value `0.85` (a 0–1 ratio):
+For example, for a source with value `8.5` (a 0–1 ratio):
 - `_100v` → `85`
 - `_100v%` → `85%`
 
@@ -75,11 +75,10 @@ For example, for a source with value `0.85` (a 0–1 ratio):
 
 <ValueDisplay
   source={{
-    name: "Efficiency",
-    title: ["Efficiency", "_100v% → 85%"],
-    value: "85%"
+    name: "Var1",
+    title: ["Flights", "Var1: 7.5% → _10v → 75"],
+    value: "75"
   }}
-  options={{ valueFontSize: "36px" }}
 />
 
 ## Further reading
