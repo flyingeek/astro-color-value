@@ -118,6 +118,7 @@
         gap: 8px;
         align-items: stretch;
         height: 120px;
+        margin-bottom: 16px;
     }
 
     .value-wrapper {

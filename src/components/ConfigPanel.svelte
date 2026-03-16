@@ -88,7 +88,7 @@
             ...cases,
             {
                 _id: nextId++,
-                op: prev?.op ?? " = ",
+                op: prev?.op ?? " < ",
                 threshold: prev?.threshold ?? 0,
                 color: COLOR_RED,
                 bgcolor: THEME_DEFAULT_BGCOLOR,
