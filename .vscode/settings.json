@@ -10,10 +10,19 @@
 //"markdown.suggest.paths.enabled": true,
 //"markdown.extension.completion.root": "src/content/docs",
 //"markdown.extension.completion.enabled": true,
-//"markdown.validate.fileLinks.enabled": "warning"
-    "svelte.plugin.svelte.compilerWarnings": {
-        "a11y_consider_explicit_label": "ignore",
-        "a11y_no_static_element_interactions": "ignore",
-        "a11y_click_events_have_key_events": "ignore",
-    }
+//"markdown.validate.fileLinks.enabled": "warning",
+  "files.exclude": {
+    "dist": true
+  },
+  "search.exclude": {
+    "dist": true
+  },
+  "files.watcherExclude": {
+    "dist/**": true
+  },
+  "svelte.plugin.svelte.compilerWarnings": {
+    "a11y_consider_explicit_label": "ignore",
+    "a11y_no_static_element_interactions": "ignore",
+    "a11y_click_events_have_key_events": "ignore"
+  }
 }
