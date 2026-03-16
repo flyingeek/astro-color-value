@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
+import { VitePWA } from 'vite-plugin-pwa';
 import starlightStripMdExtension from './plugins/starlight-strip-md-extension';
 const isProd = import.meta.env.PROD;
 const buildFormat = 'directory';
@@ -18,7 +19,51 @@ export default defineConfig({
     experimental: {
       contentIntellisense: true,
     },
-    vite: { optimizeDeps: { exclude: ['astro/virtual-modules/prefetch.js'] } },
+    vite: {
+        optimizeDeps: { exclude: ['astro/virtual-modules/prefetch.js'] },
+        plugins: [
+            VitePWA({
+                registerType: 'autoUpdate',
+                injectRegister: 'auto',
+                includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+                manifest: {
+                    id: './',
+                    name: 'Color Value Docs',
+                    short_name: 'Color Value',
+                    description: 'Documentation and simulator for the Ethos Color Value widget.',
+                    theme_color: '#292829',
+                    background_color: '#292829',
+                    display: 'standalone',
+                    start_url: './',
+                    scope: './',
+                    icons: [
+                        {
+                            src: 'pwa-192x192.png',
+                            sizes: '192x192',
+                            type: 'image/png',
+                        },
+                        {
+                            src: 'pwa-512x512.png',
+                            sizes: '512x512',
+                            type: 'image/png',
+                        },
+                        {
+                            src: 'maskable-icon-512x512.png',
+                            sizes: '512x512',
+                            type: 'image/png',
+                            purpose: 'maskable',
+                        },
+                    ],
+                },
+                workbox: {
+                    globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
+                },
+                devOptions: {
+                    enabled: false,
+                },
+            }),
+        ],
+    },
     integrations: [
         svelte(),
         starlight({
@@ -30,8 +75,8 @@ export default defineConfig({
                     items: [
                         // Each item here is one entry in the navigation menu.
                         { label: 'Example Guide', slug: 'guides/example' },
-                        { label: 'Config Panel', slug: 'guides/config-panel' },
-                        { label: 'Value Display', slug: 'guides/value-display' },
+                        //{ label: 'Config Panel', slug: 'guides/config-panel' },
+                        //{ label: 'Value Display', slug: 'guides/value-display' },
                         { label: 'Simulator', slug: 'guides/simulator' },
                     ],
                 },
