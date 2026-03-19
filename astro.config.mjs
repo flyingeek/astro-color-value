@@ -65,6 +65,7 @@ export default defineConfig({
     integrations: [
         svelte(),
         starlight({
+            pagefind: false,
             title: 'Color Value Documentation',
             social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/flyingeek/ethos-color-value' }],
             sidebar: [
@@ -75,8 +76,8 @@ export default defineConfig({
                         {label: 'Installation', slug: 'guides/installation'},
                         { label: 'Introduction', slug: 'guides/introduction' },
                         { label: 'Custom States', slug: 'guides/custom-states' },
-                        //{ label: 'Config Panel', slug: 'guides/config-panel' },
-                        //{ label: 'Value Display', slug: 'guides/value-display' },
+                        { label: 'Flight Modes', slug: 'guides/flight-modes' },
+                        { label: 'Flight Counter', slug: 'guides/flight-counter' },
                         { label: 'Simulator', slug: 'guides/simulator' },
                     ],
                 },

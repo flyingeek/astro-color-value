@@ -43,7 +43,7 @@ have passed. After the timeout, we display the timer's value in the title.
 <Simulator
   client:load
   initialSource="Timer1"
-  options={{ showTitle: true, showMinMax: false, useState: true }}
+  options={{ showTitle: true, showMinMax: false, useState: true, useBackground: true }}
   logics={[
     { op: " > ", threshold: 600, color: COLOR_WHITE,    bgcolor: COLOR_RED,    title: "_n _t", text: "TIMEOUT!" },
   ]}

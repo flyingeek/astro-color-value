@@ -19,6 +19,7 @@ export const CATEGORY_TIMER = 25;
 export const CATEGORY_TELEMETRY_SENSOR = 26;
 export const CATEGORY_SYSTEM = 27;
 export const CATEGORY_SYSTEM_EVENT = 28;
+export const CATEGORY_VARS = 29;
 
 // Ethos theme colors (dark mode)
 export const THEME_DEFAULT_COLOR = "#FFFFFF";
@@ -141,13 +142,13 @@ export const SOURCE_CHOICES = {
         "category": CATEGORY_TIMER,
         "unit": "s",
         "decimals": 0,
-        "minimum": -1024,
-        "maximum": 1024,
+        "minimum": 0,
+        "maximum": 10240,
         "value": 0,
         "stringValue": (value) => {
             const seconds = Math.abs(value);
-            const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds - (hours * 3600)) / 60);
             const remainingSeconds = seconds % 60;
             const sign = value < 0 ? "-" : "";
             return `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
@@ -186,5 +187,14 @@ export const SOURCE_CHOICES = {
             const flightModes = [defaultFlightMode,"Stabilized", "Acro", "Angle"];
             return flightModes[value] || defaultFlightMode;
         }
-    }
+    },
+    "Var1": {
+        "name": "Var1",
+        "category": CATEGORY_VARS,
+        "unit": "%",
+        "decimals": 1,
+        "minimum": 0,
+        "maximum": 500,
+        "value": 1.5,
+    },
 }

@@ -1,0 +1,30 @@
+---
+title: Flight modes
+description: playing with flight mode
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+import Simulator from "../../../components/Simulator.svelte";
+import { CATEGORY_TELEMETRY_SENSOR, COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_CYAN, COLOR_BLUE, COLOR_WHITE, THEME_DEFAULT_BGCOLOR, THEME_DEFAULT_COLOR } from "../../../components/ethos_constants.js";
+
+You can modify Flight Mode as any other values. The default flight mode value is 0. Of course you can use background color and custom states.
+<br/>
+<Simulator
+  client:load
+  initialSource="Current F.M."
+  options={{ showTitle: true, showMinMax: false }}
+  logics={[
+    { op: " = ", threshold: 0, color: THEME_DEFAULT_COLOR,    bgcolor: THEME_DEFAULT_BGCOLOR,    title: "", text: "" },
+    { op: " = ", threshold: 1, color: COLOR_YELLOW, bgcolor: THEME_DEFAULT_BGCOLOR, title: "", text: "" },
+    { op: " = ", threshold: 2, color: COLOR_BLUE, bgcolor: THEME_DEFAULT_BGCOLOR, title: "", text: "" },
+    { op: " = ", threshold: 3, color: COLOR_CYAN, bgcolor: THEME_DEFAULT_BGCOLOR, title: "", text: "" },
+  ]}
+/>
