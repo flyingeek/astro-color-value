@@ -1,4 +1,4 @@
-This is the documentation of the [ethos-color-value](https://flyingeek.github.io/ethos-color-value/) widget. It is an interactive documentation using a widget simulator.
+This is the documentation of the [ethos-color-value](https://github.com/flyingeek/ethos-color-value) widget. It is an interactive documentation using a widget simulator.
 
 The stack used is astro-starlight with svelte components.
 
