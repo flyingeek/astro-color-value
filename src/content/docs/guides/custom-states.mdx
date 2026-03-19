@@ -1,0 +1,50 @@
+---
+title: Custom States
+description: Adding a custom states
+draft: false
+pagefind: true
+template: doc
+head: []
+editUrl: true
+sidebar:
+  hidden: false
+  attrs: {}
+
+---
+import ValueDisplay from "../../../components/ValueDisplay.svelte";
+import Simulator from "../../../components/Simulator.svelte";
+import { CATEGORY_TELEMETRY_SENSOR, COLOR_RED, COLOR_ORANGE, COLOR_WHITE, THEME_DEFAULT_BGCOLOR, THEME_DEFAULT_COLOR } from "../../../components/ethos_constants.js";
+
+
+## Thr Active Status
+
+Sometimes, Having the value displayed is not very informative. For this example, consider the switch SA as your
+throttle arm switch. Play with the simulator, of course you can also change background or change the title text as well if you wish.
+
+<br/>
+<Simulator
+  client:load
+  initialSource="SA"
+  options={{ showTitle: true, showMinMax: false, useState: true }}
+  logics={[
+    { op: " = ", threshold: -100, color: COLOR_RED,    bgcolor: THEME_DEFAULT_BGCOLOR,    title: "", text: "Thr Active" },
+    { op: " > ", threshold: -100, color: THEME_DEFAULT_COLOR, bgcolor: THEME_DEFAULT_BGCOLOR, title: "", text: "Thr Cut" },
+  ]}
+/>
+
+## Adding tags
+
+Tags are replaced with source values, You will find the reference of all tags available in the reference sections.
+But you do not have to remember them, clicking the button `...` shows you the most useful tags which you can insert
+directly in the state field or the title field. In the example below we add a vibrant alarm to a timer when 10 minutes (600 seconds)
+have passed. After the timeout, we display the timer's value in the title.
+
+<br/>
+<Simulator
+  client:load
+  initialSource="Timer1"
+  options={{ showTitle: true, showMinMax: false, useState: true }}
+  logics={[
+    { op: " > ", threshold: 600, color: COLOR_WHITE,    bgcolor: COLOR_RED,    title: "_n _t", text: "TIMEOUT!" },
+  ]}
+/>

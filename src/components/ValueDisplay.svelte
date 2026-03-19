@@ -149,9 +149,12 @@
         padding: 4px 14px;
         box-sizing: border-box;
         font-family:
-            system-ui,
+            "Roboto",
             -apple-system,
             BlinkMacSystemFont,
+            "Segoe UI",
+            Helvetica,
+            Arial,
             sans-serif;
         overflow: hidden;
     }
@@ -199,7 +202,7 @@
         display: block;
         font-size: var(--value-font-size);
         color: var(--value-color);
-        font-weight: 700;
+        font-weight: 600;
         line-height: 1.1;
         text-align: center;
         white-space: nowrap;

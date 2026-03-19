@@ -65,14 +65,16 @@ export default defineConfig({
     integrations: [
         svelte(),
         starlight({
-            title: 'Color Value Docs',
+            title: 'Color Value Documentation',
             social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/flyingeek/ethos-color-value' }],
             sidebar: [
                 {
                     label: 'Guides',
                     items: [
                         // Each item here is one entry in the navigation menu.
-                        { label: 'Example Guide', slug: 'guides/example' },
+                        {label: 'Installation', slug: 'guides/installation'},
+                        { label: 'Introduction', slug: 'guides/introduction' },
+                        { label: 'Custom States', slug: 'guides/custom-states' },
                         //{ label: 'Config Panel', slug: 'guides/config-panel' },
                         //{ label: 'Value Display', slug: 'guides/value-display' },
                         { label: 'Simulator', slug: 'guides/simulator' },
