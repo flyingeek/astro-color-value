@@ -197,4 +197,16 @@ export const SOURCE_CHOICES = {
         "maximum": 500,
         "value": 1.5,
     },
+    "CH1": {
+        "name": "CH1",
+        "category": CATEGORY_ANALOG,
+        "unit": "",
+        "decimals": 0,
+        "minimum": -1024,
+        "maximum": 1024,
+        "value": 0,
+        "stringValue": (value) => {
+            return (value / 1024 * 100).toFixed(0).toString() + "%";
+        }
+    },
 }
