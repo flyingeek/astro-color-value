@@ -142,7 +142,7 @@ export const SOURCE_CHOICES = {
         "category": CATEGORY_TIMER,
         "unit": "s",
         "decimals": 0,
-        "minimum": 0,
+        "minimum": -3600,
         "maximum": 10240,
         "value": 0,
         "stringValue": (value) => {
