@@ -685,7 +685,7 @@
         width: 60px;
     }
     .case-lbl.matched {
-        color: #ffffff;
+        color: #88c018;
     }
     .del-btn {
         width: 30px;
