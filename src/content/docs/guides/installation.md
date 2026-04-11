@@ -27,3 +27,7 @@ If you prefer the manual method, unzip the download, then open your radio’s sc
 
 ## Widget explanation
 After installation, two new widgets become available: **Color Value** and **Color Telemetry**. They use the same underlying code, but **Color Telemetry** limits the source to a telemetry sensor—so if you’re using telemetry, it’s faster to set up with Color Telemetry.
+
+:::note
+There is a difference between the telemetry values accessible in **Color Value** and **Color Telemetry**. Complex values, those requiring the use of the hamburger in the source menu, are only available in **Color Value**.
+:::
